@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { Box, Button, FormLabel, IconButton } from "@mui/material";
 import { Dialog, TextField, Typography } from "@mui/material";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const labelStyle = { mt: 1, mb: 1 };
 
-const AuthForm = ({onSubmit, isAdmin}) => {
+const AuthForm = ({ onSubmit, isAdmin }) => {
     const [isSignup, setIsSignup] = useState(false);
     const [inputs, setInputs] = useState({
         name: "",
         email: "",
         password: ""
     });
+    const [open, setOpen] = useState(true); // State to manage dialog open status
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleChange = (e) => {
         setInputs((prevState) => ({
@@ -22,16 +25,19 @@ const AuthForm = ({onSubmit, isAdmin}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit({inputs, signup : isAdmin ? false : isSignup});
-        // Add your form submission logic here
+        onSubmit({ inputs, signup: isAdmin ? false : isSignup });
+
+        navigate('/'); // Navigate to / after successful login
+        
     };
 
     const handleClose = () => {
-        // Add logic to close the dialog if needed
+        setOpen(false); // Close the dialog
+        navigate('/'); // Navigate to the home page
     };
 
     return (
-        <Dialog PaperProps={{ style: { borderRadius: 20 }}} open={true} onClose={handleClose}>
+        <Dialog PaperProps={{ style: { borderRadius: 20 }}} open={open} onClose={handleClose}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
                 <IconButton onClick={handleClose}>
                     <CloseRoundedIcon />
@@ -51,7 +57,7 @@ const AuthForm = ({onSubmit, isAdmin}) => {
                     alignContent={"center"}
                 >
                     {!isAdmin && isSignup && (
-                        < >
+                        <>
                             <FormLabel sx={labelStyle}>Name</FormLabel>
                             <TextField
                                 value={inputs.name}
@@ -103,23 +109,21 @@ const AuthForm = ({onSubmit, isAdmin}) => {
                     {
                         !isAdmin && (
                             <Button
-                        onClick={() => setIsSignup(!isSignup)}
-                        sx={{
-                            mt: 3,
-                            borderRadius: 10,
-                            bgcolor: "#e0e0e0",
-                            ":hover": {
-                                bgcolor: "#bdbdbd",
-                            },
-                            transition: "all 0.3s ease-in-out",
-                        }}
-                        fullWidth
-                    >
-                        Switch To {isSignup ? "Login" : "Signup"}
-                    </Button>
-
-                    )}
-                    
+                                onClick={() => setIsSignup(!isSignup)}
+                                sx={{
+                                    mt: 3,
+                                    borderRadius: 10,
+                                    bgcolor: "#e0e0e0",
+                                    ":hover": {
+                                        bgcolor: "#bdbdbd",
+                                    },
+                                    transition: "all 0.3s ease-in-out",
+                                }}
+                                fullWidth
+                            >
+                                Switch To {isSignup ? "Login" : "Signup"}
+                            </Button>
+                        )}
                 </Box>
             </form>
         </Dialog>
@@ -127,3 +131,4 @@ const AuthForm = ({onSubmit, isAdmin}) => {
 };
 
 export default AuthForm;
+ 
