@@ -5,7 +5,8 @@ const adminRouter = express.Router();
 import { 
     addAdmin,
     adminLogin,
-    getAllAdmins
+    getAllAdmins,
+    getAdminById
     
 
 } from '../controllers/admin-controller.js';
@@ -13,5 +14,7 @@ import {
 adminRouter.post("/signup", addAdmin);
 adminRouter.post("/login", adminLogin);
 adminRouter.get("/", getAllAdmins);
+adminRouter.get("/:adminId", getAdminById);
+
 
 export default adminRouter;
