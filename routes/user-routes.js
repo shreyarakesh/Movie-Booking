@@ -6,7 +6,8 @@ import {
             updateUser,
             deleteUser,
             login,
-            getBookingsOfUser
+            getBookingsOfUser,
+            getUserDetails
 
 } from '../controllers/user-controller.js';
 
@@ -18,6 +19,7 @@ userRouter.put("/:id", updateUser);
 userRouter.delete("/:id", deleteUser);
 userRouter.post("/login", login);
 userRouter.get("/bookings/:id", getBookingsOfUser);
+userRouter.get('/:id', getUserDetails);
 
 
 export default userRouter;
