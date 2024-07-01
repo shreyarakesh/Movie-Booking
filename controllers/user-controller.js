@@ -123,3 +123,21 @@ export const getBookingsOfUser = async (req, res, next) => {
 
     return res.status(200).json({ bookings });
 };
+
+// Function to get user details by user ID
+export const getUserDetails = async (req, res, next) => {
+    const id = req.params.id;
+
+    let user;
+    try {
+        user = await User.findById(id).select('-password'); // Exclude the password field
+    } catch (err) {
+        return res.status(500).json({ message: "Unexpected Error Occurred", error: err.message });
+    }
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ user });
+};
